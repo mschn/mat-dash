@@ -1,0 +1,14 @@
+# env
+.env
+
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+ui/dist/
+server/dist/
+
+# lock files (keep only root)
+ui/package-lock.json
+server/package-lock.json

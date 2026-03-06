@@ -1,0 +1,19 @@
+.hm-cell {
+  fill: var(--chakra-colors-gray-200);
+}
+
+.hm-cell-run {
+  fill: color-mix(
+    in oklch,
+    var(--chakra-colors-green-800) calc(var(--intensity) * 100%),
+    var(--chakra-colors-green-200)
+  );
+}
+
+.hm-cell-ride {
+  fill: color-mix(
+    in oklch,
+    var(--chakra-colors-blue-700) calc(var(--intensity) * 100%),
+    var(--chakra-colors-blue-200)
+  );
+}

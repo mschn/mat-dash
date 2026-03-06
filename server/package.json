@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.9",
+    "@orpc/server": "^1.13.5",
+    "hono": "^4.7.4",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "openapi-typescript": "^7.13.0",
+    "tsx": "^4.19.3"
+  }
+}
