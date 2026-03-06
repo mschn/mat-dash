@@ -6,7 +6,7 @@ export function Card({
   ...props
 }: { children: ReactNode } & BoxProps): ReactNode {
   return (
-    <Box bgColor="gray.100" p="6" borderRadius="md" shadow="lg" {...props}>
+    <Box bgColor="gray.100/80" p="6" borderRadius="md" shadow="lg" {...props}>
       {children}
     </Box>
   );

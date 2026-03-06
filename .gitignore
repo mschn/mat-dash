@@ -12,3 +12,5 @@ server/dist/
 # lock files (keep only root)
 ui/package-lock.json
 server/package-lock.json
+
+.DS_Store
