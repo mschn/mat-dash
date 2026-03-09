@@ -1,12 +1,12 @@
-import { Alert, Box, Flex, Grid, GridItem, Spinner } from "@chakra-ui/react";
+import { Alert, Box, Flex, Spinner } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Heatmap } from "./components/Heatmap";
-import { orpcUtils } from "./lib/orpc";
-import { Weather } from "./components/Weather/Weather";
 import bg from "./assets/bg.jpg";
 import { Calendar } from "./components/Calendar/Calendar";
 import { Header } from "./components/Header";
+import { Heatmap } from "./components/Heatmap";
 import { Links } from "./components/Links";
+import { Weather } from "./components/Weather/Weather";
+import { orpcUtils } from "./lib/orpc";
 
 function App() {
   const { data, error, isPending } = useQuery(
@@ -35,25 +35,19 @@ function App() {
       <Box maxW="60rem" mx="auto" pt={8}>
         <Header></Header>
 
-        {/* TODO replace that grid with a <Flex dir=column> for each col */}
-        <Grid
-          templateColumns="repeat(3, 1fr)"
-          templateRows="repeat(3, 1fr)"
-          gap="6"
-        >
-          <GridItem colSpan={2} rowSpan={1}>
+        <Flex dir="row" gap={3}>
+          {/* Left */}
+          <Flex flexDir="column" gap={3}>
             <Heatmap weeks={20} activities={data ?? []} />
-          </GridItem>
-          <GridItem colSpan={1} rowSpan={3}>
-            <Calendar></Calendar>
-          </GridItem>
-          <GridItem colSpan={2} rowSpan={1}>
             <Links></Links>
-          </GridItem>
-          <GridItem colSpan={2} rowSpan={1}>
             <Weather />
-          </GridItem>
-        </Grid>
+          </Flex>
+
+          {/* Right */}
+          <Flex flexDir="column" gap={3}>
+            <Calendar></Calendar>
+          </Flex>
+        </Flex>
       </Box>
     </Box>
   );

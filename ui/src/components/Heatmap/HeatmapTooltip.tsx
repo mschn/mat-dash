@@ -72,8 +72,7 @@ export function HeatmapTooltip({
   return (
     <Box
       position="absolute"
-      left={`${px}px`}
-      top={`${py}px`}
+      style={{ left: `${px}px`, top: `${py}px` }}
       transform="translate(-50%, calc(-100% - 6px))"
       pointerEvents="none"
       bg="gray.800"
