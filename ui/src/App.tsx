@@ -6,6 +6,7 @@ import { Weather } from "./components/Weather/Weather";
 import bg from "./assets/bg.jpg";
 import { Calendar } from "./components/Calendar/Calendar";
 import { Header } from "./components/Header";
+import { Links } from "./components/Links";
 
 function App() {
   const { data, error, isPending } = useQuery(
@@ -33,18 +34,23 @@ function App() {
     <Box w="100vw" h="100vh" bgSize="cover" bgImage={`url(${bg})`}>
       <Box maxW="60rem" mx="auto" pt={8}>
         <Header></Header>
+
+        {/* TODO replace that grid with a <Flex dir=column> for each col */}
         <Grid
           templateColumns="repeat(3, 1fr)"
           templateRows="repeat(3, 1fr)"
           gap="6"
         >
-          <GridItem colSpan={2}>
+          <GridItem colSpan={2} rowSpan={1}>
             <Heatmap weeks={20} activities={data ?? []} />
           </GridItem>
-          <GridItem colSpan={1} rowSpan={2}>
+          <GridItem colSpan={1} rowSpan={3}>
             <Calendar></Calendar>
           </GridItem>
-          <GridItem colSpan={2}>
+          <GridItem colSpan={2} rowSpan={1}>
+            <Links></Links>
+          </GridItem>
+          <GridItem colSpan={2} rowSpan={1}>
             <Weather />
           </GridItem>
         </Grid>
