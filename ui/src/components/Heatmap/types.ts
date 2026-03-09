@@ -12,6 +12,7 @@ export type ActivitiesByDay = Record<string, DayData>;
 export interface HeatmapCell {
   date: Date;
   isToday: boolean;
+  isFuture: boolean;
 }
 
 /** A column represents one week: index 0 = Monday, 6 = Sunday */

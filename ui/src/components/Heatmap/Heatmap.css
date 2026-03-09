@@ -1,19 +1,15 @@
 .hm-cell {
-  fill: var(--chakra-colors-gray-200);
+  fill: #f4f4f4;
+  stroke: #d2d2d2;
+  stroke-width: 1px;
 }
 
 .hm-cell-run {
-  fill: color-mix(
-    in oklch,
-    var(--chakra-colors-green-800) calc(var(--intensity) * 100%),
-    var(--chakra-colors-green-200)
-  );
+  fill: color-mix(in oklch, #0f6500 calc(var(--intensity) * 100%), #adff9a);
+  stroke: #0f65005e;
 }
 
 .hm-cell-ride {
-  fill: color-mix(
-    in oklch,
-    var(--chakra-colors-blue-700) calc(var(--intensity) * 100%),
-    var(--chakra-colors-blue-200)
-  );
+  fill: color-mix(in oklch, #0006bb calc(var(--intensity) * 100%), #9497ff);
+  stroke: #0006bbb9;
 }

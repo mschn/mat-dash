@@ -71,6 +71,7 @@ export function buildColumns(weeks: number): HeatmapColumn[] {
       column.push({
         date: new Date(currentDate),
         isToday: isSameDay(currentDate, todayUTC),
+        isFuture: currentDate > todayUTC,
       });
       currentDate.setUTCDate(currentDate.getUTCDate() + 1);
     }

@@ -1,13 +1,13 @@
+import { chakra } from "@chakra-ui/react";
 import React from "react";
-import type { DayData, EffortRange } from "./types";
 import {
   CELL,
   WEIGHT_ICON_PATH,
   WEIGHT_ICON_SIZE,
   WEIGHT_ICON_Y_OFFSET,
 } from "./constants";
+import type { DayData, EffortRange } from "./types";
 import { getEffortIntensity, hasRide, hasRun, hasWeights } from "./utils";
-import { chakra } from "@chakra-ui/react";
 
 export interface HoverInfo {
   x: number;
@@ -30,7 +30,6 @@ export function HeatmapCell({
   x,
   y,
   date,
-  isToday,
   dayData,
   effortRange,
   onHover,
@@ -77,8 +76,6 @@ export function HeatmapCell({
         height={CELL}
         rx={3}
         className={rectClass}
-        strokeWidth={isToday ? "2px" : "1px"}
-        stroke={isToday ? "blue.700" : "gray.200"}
         style={{ "--intensity": intensity } as React.CSSProperties}
       />
 

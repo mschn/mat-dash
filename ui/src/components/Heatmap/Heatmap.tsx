@@ -105,21 +105,23 @@ export function Heatmap({
 
           {/* Cells: columns = weeks, rows = day of week */}
           {columns.map((column, colIndex) =>
-            column.map((cell, row) => {
-              const key = cell.date.toISOString().slice(0, 10);
-              return (
-                <HeatmapCell
-                  key={key}
-                  x={LABEL_W + GAP + colIndex * (CELL + GAP)}
-                  y={HEADER_H + GAP + row * (CELL + GAP)}
-                  date={cell.date}
-                  isToday={cell.isToday}
-                  dayData={activitiesByDay[key]}
-                  effortRange={effortRange}
-                  onHover={handleHover}
-                />
-              );
-            }),
+            column
+              .filter((cell) => !cell.isFuture)
+              .map((cell, row) => {
+                const key = cell.date.toISOString().slice(0, 10);
+                return (
+                  <HeatmapCell
+                    key={key}
+                    x={LABEL_W + GAP + colIndex * (CELL + GAP)}
+                    y={HEADER_H + GAP + row * (CELL + GAP)}
+                    date={cell.date}
+                    isToday={cell.isToday}
+                    dayData={activitiesByDay[key]}
+                    effortRange={effortRange}
+                    onHover={handleHover}
+                  />
+                );
+              }),
           )}
         </svg>
 
