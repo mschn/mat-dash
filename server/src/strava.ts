@@ -70,7 +70,7 @@ async function stravaFetch(path: string): Promise<Response> {
 }
 
 export async function fetchActivities(
-  perPage = 60,
+  perPage = 90,
 ): Promise<SummaryActivity[]> {
   const res = await stravaFetch(`/athlete/activities?per_page=${perPage}`);
   return res.json();

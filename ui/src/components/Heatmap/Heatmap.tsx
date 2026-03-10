@@ -1,10 +1,10 @@
-import { Box, chakra } from "@chakra-ui/react";
+import { Alert, Box, chakra, Flex, Spinner } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useState } from "react";
-import type { SummaryActivity } from "server";
 import { Card } from "../Card";
 import "./Heatmap.css";
-import { HeatmapCell } from "./HeatmapCell";
 import type { HoverInfo } from "./HeatmapCell";
+import { HeatmapCell } from "./HeatmapCell";
 import { HeatmapTooltip } from "./HeatmapTooltip";
 import { CELL, DAY_LABELS, GAP, HEADER_H, LABEL_W } from "./constants";
 import {
@@ -13,14 +13,14 @@ import {
   getEffortRange,
   groupActivitiesByDay,
 } from "./utils";
+import { orpcUtils } from "../../lib/orpc";
 
-export function Heatmap({
-  weeks,
-  activities,
-}: {
-  weeks: number;
-  activities: SummaryActivity[];
-}): React.ReactNode {
+export function Heatmap(): React.ReactNode {
+  const { data, error, isPending } = useQuery(
+    orpcUtils.activities.queryOptions(),
+  );
+
+  const weeks = 30;
   const svgRef = useRef<SVGSVGElement>(null);
   const [hover, setHover] = useState<HoverInfo | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{
@@ -31,8 +31,8 @@ export function Heatmap({
   const columns = useMemo(() => buildColumns(weeks), [weeks]);
   const monthLabels = useMemo(() => buildMonthLabels(columns), [columns]);
   const activitiesByDay = useMemo(
-    () => groupActivitiesByDay(activities),
-    [activities],
+    () => groupActivitiesByDay(data ?? []),
+    [data],
   );
   const effortRange = useMemo(
     () => getEffortRange(activitiesByDay),
@@ -56,6 +56,23 @@ export function Heatmap({
       py: (info.y / H) * height,
     });
   };
+
+  if (isPending)
+    return (
+      <Flex minH="100vh" align="center" justify="center">
+        <Spinner size="xl" />
+      </Flex>
+    );
+
+  if (error)
+    return (
+      <Box p={8}>
+        <Alert.Root status="error">
+          <Alert.Indicator />
+          <Alert.Title>{error.message}</Alert.Title>
+        </Alert.Root>
+      </Box>
+    );
 
   return (
     <Card>
