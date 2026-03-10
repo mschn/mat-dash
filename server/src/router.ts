@@ -1,18 +1,12 @@
-import { os } from '@orpc/server'
-import { athleteMock } from '../mocks/athlete.js'
-import { activities } from '../mocks/activities.js'
-
-export const athlete = os.handler(async () => {
-  return athleteMock
-})
+import { os } from "@orpc/server";
+import { fetchActivities } from "./strava.js";
 
 export const getActivities = os.handler(async () => {
-  return activities
-})
+  return fetchActivities();
+});
 
 export const router = {
-  athlete,
   activities: getActivities,
-}
+};
 
-export type AppRouter = typeof router
+export type AppRouter = typeof router;

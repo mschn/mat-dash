@@ -9,6 +9,8 @@ import { Weather } from "./components/Weather/Weather";
 import { orpcUtils } from "./lib/orpc";
 
 function App() {
+
+  // TODO move this query in the heatmap component 
   const { data, error, isPending } = useQuery(
     orpcUtils.activities.queryOptions(),
   );
