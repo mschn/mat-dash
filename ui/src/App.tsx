@@ -38,13 +38,13 @@ function App() {
         <Flex dir="row" gap={3}>
           {/* Left */}
           <Flex flexDir="column" gap={3}>
-            <Heatmap weeks={20} activities={data ?? []} />
-            <Links></Links>
             <Weather />
+            <Heatmap weeks={20} activities={data ?? []} />
           </Flex>
 
           {/* Right */}
           <Flex flexDir="column" gap={3}>
+            <Links />
             <Calendar></Calendar>
           </Flex>
         </Flex>

@@ -2,7 +2,7 @@ import { Button, HStack } from "@chakra-ui/react";
 import bitwardenIcon from "../../assets/bitwarden.svg";
 import githubIcon from "../../assets/github.svg";
 import gmailIcon from "../../assets/gmail.svg";
-import youtubeMusic from '../../assets/youtube-music.svg'
+import youtubeMusic from "../../assets/youtube-music.svg";
 import { Card } from "../Card";
 
 export function Links(): React.ReactNode {
@@ -23,9 +23,9 @@ export function Links(): React.ReactNode {
 
   return (
     <Card>
-      <HStack gap={3}>
+      <HStack gap={1}>
         {links.map((link) => (
-          <Button variant="surface" asChild>
+          <Button variant="ghost" asChild>
             <a href={link.url} target="_blank">
               <img src={link.icon} width="32px" height="32px" />
             </a>

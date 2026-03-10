@@ -1,10 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 
 export interface WeatherData {
-  temperature_2m: number;
-  wind_speed_10m: number;
-  relative_humidity_2m: number;
-  weather_code: number;
+  current: {
+    temperature_2m: number;
+    wind_speed_10m: number;
+    relative_humidity_2m: number;
+    weather_code: number;
+    precipitation: number;
+  };
+  daily: {
+    time: string[];
+    weather_code: number[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    wind_speed_10m_max: number[];
+    precipitation_probability_max: number[];
+    relative_humidity_2m_mean: number[];
+  };
 }
 
 async function fetchGeolocation(): Promise<GeolocationCoordinates> {
@@ -15,7 +27,7 @@ async function fetchGeolocation(): Promise<GeolocationCoordinates> {
     }
     navigator.geolocation.getCurrentPosition(
       (pos) => resolve(pos.coords),
-      reject
+      reject,
     );
   });
 }
@@ -27,7 +39,18 @@ async function fetchWeather(): Promise<WeatherData> {
   url.searchParams.set("longitude", String(coords.longitude));
   url.searchParams.set(
     "current",
-    "temperature_2m,wind_speed_10m,relative_humidity_2m,weather_code,precipitation"
+    "temperature_2m,wind_speed_10m,relative_humidity_2m,weather_code,precipitation",
+  );
+  url.searchParams.set(
+    "daily",
+    [
+      "weather_code",
+      "temperature_2m_max",
+      "temperature_2m_min",
+      "wind_speed_10m_max",
+      "precipitation_probability_max",
+      "relative_humidity_2m_mean",
+    ].join(","),
   );
   url.searchParams.set("wind_speed_unit", "kmh");
   url.searchParams.set("temperature_unit", "celsius");
@@ -35,7 +58,7 @@ async function fetchWeather(): Promise<WeatherData> {
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error("Failed to fetch weather");
   const json = await res.json();
-  return json.current as WeatherData;
+  return json as WeatherData;
 }
 
 export function useWeather() {
