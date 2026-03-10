@@ -59,19 +59,23 @@ export function Heatmap(): React.ReactNode {
 
   if (isPending)
     return (
-      <Flex minH="100vh" align="center" justify="center">
-        <Spinner size="xl" />
-      </Flex>
+      <Card>
+        <Flex align="center" justify="center">
+          <Spinner size="xl" />
+        </Flex>
+      </Card>
     );
 
   if (error)
     return (
-      <Box p={8}>
-        <Alert.Root status="error">
-          <Alert.Indicator />
-          <Alert.Title>{error.message}</Alert.Title>
-        </Alert.Root>
-      </Box>
+      <Card>
+        <Box p={8}>
+          <Alert.Root status="error">
+            <Alert.Indicator />
+            <Alert.Title>{error.message}</Alert.Title>
+          </Alert.Root>
+        </Box>
+      </Card>
     );
 
   return (
