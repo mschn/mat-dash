@@ -1,4 +1,3 @@
-// filepath: /Users/mschnoor/code/mat-dash/ui/Dockerfile
 # ---- Builder ----
 FROM node:22-alpine AS builder
 
