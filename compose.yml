@@ -18,3 +18,5 @@ services:
     depends_on:
       - server
     restart: unless-stopped
+    args:
+      - VITE_BASE_URL=/dash/

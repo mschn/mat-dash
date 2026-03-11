@@ -4,8 +4,11 @@ import { RPCLink } from '@orpc/client/fetch'
 import { createORPCReactQueryUtils } from '@orpc/react-query'
 import type { AppRouter } from 'server'
 
+const baseUrl = import.meta.env.VITE_BASE_URL || '/';
+const rpcUrl = new URL('rpc', new URL(baseUrl, window.location.origin)).toString();
+
 const link = new RPCLink({
-  url: new URL('/rpc', window.location.href).toString(),
+  url: rpcUrl,
 })
 
 export const orpc: RouterClient<AppRouter> = createORPCClient(link)
