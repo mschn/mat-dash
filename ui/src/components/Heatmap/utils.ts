@@ -116,6 +116,25 @@ export function buildMonthLabels(columns: HeatmapColumn[]): MonthLabel[] {
   });
 }
 
+export function computeWeeklyRunKm(
+  column: HeatmapColumn,
+  activitiesByDay: ActivitiesByDay,
+): number {
+  let totalMeters = 0;
+  for (const cell of column) {
+    if (cell.isFuture) continue;
+    const key = cell.date.toISOString().slice(0, 10);
+    const day = activitiesByDay[key];
+    if (!day) continue;
+    for (const activity of day.activities) {
+      if (activity.sport_type === "Run") {
+        totalMeters += activity.distance ?? 0;
+      }
+    }
+  }
+  return totalMeters / 1000;
+}
+
 export function computeEffort(activity: SummaryActivity): number {
   const moving_time = activity.moving_time ?? 0;
 

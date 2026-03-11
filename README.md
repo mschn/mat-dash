@@ -1,7 +1,12 @@
 # mat dash
 
 Personal dashboard built with React,\
-shows some info at a glance from various sources.
+shows some info at a glance from various sources:
+
+- Weather
+- Strava Heatmap
+- Google Calendar
+- Some links
 
 ## Strava token
 

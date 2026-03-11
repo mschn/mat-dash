@@ -1,20 +1,30 @@
 import { Alert, Box, chakra, Flex, Spinner } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useState } from "react";
+import { orpcUtils } from "../../lib/orpc";
 import { Card } from "../Card";
+import { ExternalLink } from "../ExternalIcon";
 import "./Heatmap.css";
 import type { HoverInfo } from "./HeatmapCell";
 import { HeatmapCell } from "./HeatmapCell";
 import { HeatmapTooltip } from "./HeatmapTooltip";
-import { CELL, DAY_LABELS, GAP, HEADER_H, LABEL_W } from "./constants";
+import { HeatmapVolumeBars } from "./HeatmapVolumeBars";
+import {
+  BAR_GAP,
+  BAR_LABEL_H,
+  BAR_MAX_H,
+  CELL,
+  DAY_LABELS,
+  GAP,
+  HEADER_H,
+  LABEL_W,
+} from "./constants";
 import {
   buildColumns,
   buildMonthLabels,
   getEffortRange,
   groupActivitiesByDay,
 } from "./utils";
-import { orpcUtils } from "../../lib/orpc";
-import { ExternalLink } from "../ExternalIcon";
 
 export function Heatmap(): React.ReactNode {
   const { data, error, isPending } = useQuery(
@@ -41,7 +51,8 @@ export function Heatmap(): React.ReactNode {
   );
 
   const W = LABEL_W + GAP + weeks * CELL + (weeks - 1) * GAP + 1;
-  const H = HEADER_H + GAP + 7 * CELL + 6 * GAP + 1;
+  const H =
+    HEADER_H + GAP + 7 * CELL + 6 * GAP + BAR_GAP + BAR_LABEL_H + BAR_MAX_H + 1;
 
   const handleHover = (info: HoverInfo | null) => {
     setHover(info);
@@ -125,6 +136,12 @@ export function Heatmap(): React.ReactNode {
                 </chakra.text>
               );
             })}
+
+            {/* Weekly run volume bars below the grid */}
+            <HeatmapVolumeBars
+              columns={columns}
+              activitiesByDay={activitiesByDay}
+            />
 
             {/* Cells: columns = weeks, rows = day of week */}
             {columns.map((column, colIndex) =>

@@ -3,6 +3,10 @@ export const GAP = 3;
 export const LABEL_W = 35; // left gutter for day labels
 export const HEADER_H = 18; // top gutter for month labels
 
+export const BAR_GAP = 8;      // vertical space between last heatmap row and bar section
+export const BAR_MAX_H = 28;   // max drawable bar height in px
+export const BAR_LABEL_H = 14; // reserved headroom above bars for km labels
+
 export const WEIGHT_ICON_Y_OFFSET = 19;
 export const WEIGHT_ICON_SIZE = 960;
 
