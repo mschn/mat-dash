@@ -1,6 +1,6 @@
 import { os } from "@orpc/server";
 import { fetchActivities } from "./strava.js";
-import { SummaryActivity } from "./types.js";
+import type { SummaryActivity } from "./types.js";
 
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1h minutes
 

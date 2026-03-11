@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import { SummaryActivity } from "./types.js";
+import type { SummaryActivity } from "./types.js";
 
 const STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token";
 const STRAVA_API_BASE = "https://www.strava.com/api/v3";

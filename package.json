@@ -11,6 +11,7 @@
     "dev:ui": "npm run dev --workspace=ui"
   },
   "devDependencies": {
+    "@types/node": "^25.4.0",
     "typescript": "~5.9.3"
   }
 }
