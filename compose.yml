@@ -12,11 +12,11 @@ services:
   ui:
     build:
       context: .
-      dockerfile: ui/Dockerfile
+      dockerfile: ui/Dockerfile    
+      args:
+        - VITE_BASE_URL=/dash/
     ports:
       - "9980:80"
     depends_on:
       - server
     restart: unless-stopped
-    args:
-      - VITE_BASE_URL=/dash/
