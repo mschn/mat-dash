@@ -24,6 +24,7 @@ Root `package.json` uses **npm workspaces**.
 - **Source:** `server/src/`
   - `server.ts` – bootstraps the Hono app and mounts the RPC handler
   - `router.ts` – defines the oRPC procedures (`athlete`, `activities`)
+  - `strava.ts` – Strava API client with automatic token refresh (persisted to `.env`)
   - `types.ts` – shared TypeScript types derived from the Strava API (`Athlete`, `SummaryActivity`, etc.)
   - `index.ts` – re-exports types and router for consumption by the UI
 - **Mocks:** `server/mocks/` – local mock data (real Strava API responses) used during development
@@ -51,8 +52,13 @@ npm run dev:server
 - **Data fetching:** [TanStack Query](https://tanstack.com/query) + oRPC React Query utils
 - **RPC client:** `ui/src/lib/orpc.ts` — typed client generated from `AppRouter`
 - **Source:** `ui/src/`
-  - `App.tsx` – root component, fetches athlete data, renders layout
+  - `App.tsx` – root component, renders layout
+  - `components/Card/` – shared card wrapper
+  - `components/Calendar/` – embedded Google Calendar iframe
+  - `components/Header/` – live date/time display
   - `components/Heatmap/` – SVG-based activity heatmap
+  - `components/Links/` – quick-link buttons
+  - `components/Weather/` – current weather + forecast via Open-Meteo API
 
 ### Vite proxy
 
@@ -84,7 +90,34 @@ Types are defined in `server/src/types.ts` and re-exported from `server/src/inde
 
 ## Strava Integration
 
-Currently the app uses **mock data** in `server/mocks/`. To use real Strava data, generate a token (see `README.md`) and update the router handlers to call the Strava API.
+Token refresh is handled automatically in `server/src/strava.ts` and persisted back to `server/.env`. Currently the router uses **mock data** in `server/mocks/`. To switch to live data, generate a token (see `README.md`) and update the router handlers in `server/src/router.ts` to call `fetchActivities` from `strava.ts`.
+
+---
+
+## Deployment
+
+The app is containerized for production using Docker and `compose.yml`.
+
+### Dockerfiles
+
+- **`server/Dockerfile`** – Single-stage build on `node:22-alpine`. Installs only the server workspace deps, copies source, and runs `npm run start`.
+- **`ui/Dockerfile`** – Multi-stage build:
+  1. **Builder stage:** Installs both `server` and `ui` workspaces (the UI imports types directly from the server package), then runs `npm run build --workspace=ui`.
+  2. **Serve stage:** Copies the built `ui/dist` into an `nginx:alpine` image using `ui/nginx.conf`.
+
+### compose.yml
+
+| Service | Exposes | Notes |
+|---|---|---|
+| `server` | Port `3000` (internal only) | `NODE_ENV=production` |
+| `ui` | Port `9980` → container `80` | Served by nginx; depends on `server` |
+
+```bash
+docker compose up --build
+# UI available at http://localhost:9980
+```
+
+> **Note:** The nginx config in `ui/nginx.conf` should proxy `/rpc` requests to `http://server:3000` so the UI can reach the oRPC backend in production.
 
 ---
 
