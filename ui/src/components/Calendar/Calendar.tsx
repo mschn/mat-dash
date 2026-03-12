@@ -1,18 +1,52 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Alert, Box, Flex, Spinner } from "@chakra-ui/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import iCalendarPlugin from "@fullcalendar/icalendar";
+import listPlugin from "@fullcalendar/list";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import type React from "react";
 import { Card } from "../Card";
 import { ExternalLink } from "../ExternalIcon";
+import { useQuery } from "@tanstack/react-query";
+import { orpcUtils } from "../../lib/orpc";
 
 export function Calendar(): React.ReactNode {
+  const { data, error, isPending } = useQuery(orpcUtils.config.queryOptions());
+
   return (
     <Card>
       <Flex flexDirection="column" gap={4}>
-        <Box overflow="hidden" borderRadius="2xl">
-          <iframe
-            src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FParis&showPrint=0&showTitle=0&showNav=0&showDate=0&showTabs=0&showTz=0&mode=AGENDA&src=bWF0aGlldS5zY2hub29yQGdtYWlsLmNvbQ&src=ZmFtaWx5MTUwNzcwOTMxODQ2Njk2MjE2NDhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=ZW4uZnJlbmNoI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=c3NzaGFyb24uY3VpQGdtYWlsLmNvbQ&color=%233f51b5&color=%237986cb&color=%234285f4&color=%238e24aa"
-            height="450"
-          ></iframe>
-        </Box>
+        {isPending && <Spinner size="xl" />}
+
+        {error && (
+          <Alert.Root status="error">
+            <Alert.Indicator />
+            <Alert.Title>{error.message}</Alert.Title>
+          </Alert.Root>
+        )}
+
+        {data?.icsUrl && (
+          <FullCalendar
+            plugins={[
+              dayGridPlugin,
+              timeGridPlugin,
+              listPlugin,
+              iCalendarPlugin,
+            ]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+            }}
+            events={{
+              url: data.icsUrl,
+              format: "ics",
+            }}
+            height="auto"
+            nowIndicator={true}
+          />
+        )}
         <Box textAlign="right">
           <ExternalLink
             href="calendar.google.com"

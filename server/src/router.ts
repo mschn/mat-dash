@@ -19,8 +19,15 @@ export const getActivities = os.handler(async () => {
   return data;
 });
 
+export const getConfig = os.handler(async () => {
+  return {
+    icsUrl: process.env.ICS_URL || "",
+  };
+});
+
 export const router = {
   activities: getActivities,
+  config: getConfig,
 };
 
 export type AppRouter = typeof router;

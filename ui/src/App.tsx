@@ -18,12 +18,12 @@ function App() {
           <Flex flexDir="column" gap={6}>
             <Weather />
             <Heatmap />
+            <Calendar />
           </Flex>
 
           {/* Right */}
           <Flex flexDir="column" gap={6}>
             <Links />
-            <Calendar></Calendar>
           </Flex>
         </Flex>
       </Box>

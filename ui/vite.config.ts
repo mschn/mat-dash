@@ -8,6 +8,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/rpc": "http://localhost:3000",
+      "/ical-proxy": {
+        target: "https://calendar.google.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ical-proxy/, "/calendar/ical"),
+      },
     },
   },
 });

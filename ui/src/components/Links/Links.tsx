@@ -1,4 +1,4 @@
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import bitwardenIcon from "../../assets/bitwarden.svg";
 import githubIcon from "../../assets/github.svg";
 import gmailIcon from "../../assets/gmail.svg";
@@ -23,7 +23,7 @@ export function Links(): React.ReactNode {
 
   return (
     <Card>
-      <HStack gap={1}>
+      <Flex gap={1}>
         {links.map((link) => (
           <Button variant="ghost" asChild>
             <a href={link.url} target="_blank">
@@ -31,7 +31,7 @@ export function Links(): React.ReactNode {
             </a>
           </Button>
         ))}
-      </HStack>
+      </Flex>
     </Card>
   );
 }
