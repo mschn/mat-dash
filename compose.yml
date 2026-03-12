@@ -21,4 +21,4 @@ services:
       - server
     restart: unless-stopped
     volumes:
-      - ui/htpasswd:/etc/nginx/htpasswd:ro
+      - ./ui/htpasswd:/etc/nginx/htpasswd:ro
