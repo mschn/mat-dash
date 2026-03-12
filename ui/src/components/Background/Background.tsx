@@ -7,7 +7,7 @@ export function Background(): React.ReactNode {
   return (
     <Box
       w="100vw"
-      h="100vh"
+      h="full"
       position="absolute"
       top={0}
       left={0}
