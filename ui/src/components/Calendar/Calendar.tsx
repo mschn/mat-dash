@@ -5,13 +5,22 @@ import listPlugin from "@fullcalendar/list";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import type React from "react";
+import { useMemo } from "react";
 import { Card } from "../Card";
 import { ExternalLink } from "../ExternalIcon";
 import { useQuery } from "@tanstack/react-query";
 import { orpcUtils } from "../../lib/orpc";
+import { CalendarTooltip } from "./CalendarTooltip";
+import { useCalendarTooltip } from "./useCalendarTooltip";
 
 export function Calendar(): React.ReactNode {
   const { data, error, isPending } = useQuery(orpcUtils.config.queryOptions());
+  const { tooltip, onMouseEnter, onMouseLeave } = useCalendarTooltip();
+  const icsUrl = data?.icsUrl;
+  const calendarEvents = useMemo(
+    () => icsUrl ? { url: icsUrl, format: "ics" as const } : undefined,
+    [icsUrl]
+  );
 
   return (
     <Card>
@@ -25,7 +34,7 @@ export function Calendar(): React.ReactNode {
           </Alert.Root>
         )}
 
-        {data?.icsUrl && (
+        {calendarEvents && (
           <FullCalendar
             plugins={[
               dayGridPlugin,
@@ -39,14 +48,16 @@ export function Calendar(): React.ReactNode {
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
             }}
-            events={{
-              url: data.icsUrl,
-              format: "ics",
-            }}
+            events={calendarEvents}
             height="auto"
             nowIndicator={true}
+            eventMouseEnter={onMouseEnter}
+            eventMouseLeave={onMouseLeave}
           />
         )}
+
+        {tooltip && <CalendarTooltip tooltip={tooltip} />}
+
         <Box textAlign="right">
           <ExternalLink
             href="calendar.google.com"
